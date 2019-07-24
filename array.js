@@ -1,11 +1,12 @@
 /* eslint-disable strict */
-const memory = require('./memory');
-
+const mem = require('./memory');
+const memory = new mem();
 class Array {
   constructor() {
     this.length = 0;
     this._capacity = 0;
     this.ptr = memory.allocate(this.length);
+    this.content = [];
   }
 
   push(value) {
@@ -18,7 +19,7 @@ class Array {
     const oldPtr = this.ptr;
     this.ptr = memory.allocate(size);
     if (this.ptr === null) {
-      throw new Error('Out of memory');
+      throw new Error('Out of Memory');
     }
     memory.copy(this.ptr, oldPtr, this.length);
     memory.free(oldPtr);
@@ -61,7 +62,16 @@ class Array {
     this.length--;
   }
 
-  
+  filter() {
+    let newArray=[] 
+    for (var i = 0; i < this.length; i++) {
+      if (this[i] > 5) {
+        newArray.push(this[i])
+      }
+    }
+    return newArray
+  }
+
 }
 
 Array.SIZE_RATIO = 3;
